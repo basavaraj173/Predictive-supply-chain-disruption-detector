@@ -1,0 +1,14 @@
+fastapi
+uvicorn
+pymongo
+redis
+yfinance
+httpx
+python-dotenv
+websockets
+pydantic
+pydantic-settings
+google-generativeai
+beautifulsoup4
+lxml
+feedparser

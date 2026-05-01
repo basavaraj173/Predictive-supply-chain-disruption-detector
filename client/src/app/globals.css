@@ -1,0 +1,76 @@
+@import "tailwindcss";
+
+:root {
+  --background: #05070a;
+  --foreground: #ffffff;
+  --cyber-cyan: #00f2ff;
+  --electric-purple: #7000ff;
+  --signal-orange: #ff3d00;
+  --neon-green: #00ff94;
+  --crimson-warning: #ff005c;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: var(--font-inter), sans-serif;
+  overflow-x: hidden;
+}
+
+@layer components {
+  .glass-card {
+    background-color: rgba(15, 20, 28, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  }
+  
+  .cyber-grid {
+    background-image: linear-gradient(rgba(0, 242, 255, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 242, 255, 0.05) 1px, transparent 1px);
+    background-size: 50px 50px;
+  }
+  
+  .glow-text {
+    text-shadow: 0 0 10px rgba(0, 242, 255, 0.5);
+  }
+  
+  .neon-border {
+    position: relative;
+  }
+  
+  .neon-border::after {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    background: linear-gradient(45deg, var(--cyber-cyan), var(--electric-purple));
+    z-index: -1;
+    border-radius: inherit;
+    opacity: 0.3;
+    transition: opacity 0.3s ease;
+  }
+  
+  .neon-border:hover::after {
+    opacity: 0.6;
+  }
+
+  .data-font {
+    font-family: var(--font-mono), monospace;
+  }
+
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  .animate-marquee {
+    animation: marquee 30s linear infinite;
+    display: flex;
+    width: max-content;
+  }
+
+  .animate-marquee:hover {
+    animation-play-state: paused;
+  }
+}
