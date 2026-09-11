@@ -76,7 +76,8 @@ export default function WorldMap() {
 
   // Fetch traffic data
   useEffect(() => {
-    fetch("http://localhost:8000/api/v1/geo/traffic")
+    const apiBase = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+    fetch(`${apiBase}/api/v1/geo/traffic`)
       .then((r) => r.json())
       .then((d) => setTraffic(d))
       .catch((e) => console.error("Geo traffic fetch error:", e));

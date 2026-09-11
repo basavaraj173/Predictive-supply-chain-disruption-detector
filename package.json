@@ -1,0 +1,10 @@
+{
+  "name": "predictive-supply-chain-disruption-detector-root",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "npm run dev --prefix client",
+    "build": "npm run build --prefix client",
+    "start": "npm run start --prefix client"
+  }
+}
