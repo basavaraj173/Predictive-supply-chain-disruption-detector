@@ -205,12 +205,20 @@ function GlobeBorders() {
       .catch(console.error);
   }, []);
 
+  const borderLines = useMemo(() => {
+    const mat = new THREE.LineBasicMaterial({
+      color: "#00f2ff",
+      transparent: true,
+      opacity: 0.3,
+      blending: THREE.AdditiveBlending,
+    });
+    return borders.map((g) => new THREE.Line(g, mat));
+  }, [borders]);
+
   return (
     <group>
-      {borders.map((g, i) => (
-        <line key={i} geometry={g}>
-          <lineBasicMaterial color="#00f2ff" transparent opacity={0.3} blending={THREE.AdditiveBlending} />
-        </line>
+      {borderLines.map((lineObj, i) => (
+        <primitive key={i} object={lineObj} />
       ))}
     </group>
   );
@@ -267,9 +275,19 @@ function NetworkArcs({ points }: { points: HeatPoint[] }) {
       const curvePoints = curve.getPoints(30);
       const geom = new THREE.BufferGeometry().setFromPoints(curvePoints);
       
+      const color = colorOpts[Math.floor(Math.random() * colorOpts.length)];
+      const mat = new THREE.LineBasicMaterial({
+        color,
+        transparent: true,
+        opacity: 0.15,
+        blending: THREE.AdditiveBlending,
+      });
+      const lineObj = new THREE.Line(geom, mat);
+
       arr.push({
         geom,
-        color: colorOpts[Math.floor(Math.random() * colorOpts.length)],
+        color,
+        lineObj,
         start: v1,
         end: v2,
         curve,
@@ -285,9 +303,7 @@ function NetworkArcs({ points }: { points: HeatPoint[] }) {
       {lines.map((line, i) => (
         <group key={i}>
           {/* Faint arc line */}
-          <line geometry={line.geom}>
-            <lineBasicMaterial color={line.color} transparent opacity={0.15} blending={THREE.AdditiveBlending} />
-          </line>
+          <primitive object={line.lineObj} />
           {/* Animated particle along arc */}
           <ArcParticle curve={line.curve} color={line.color} speed={line.speed} offset={line.offset} />
         </group>
