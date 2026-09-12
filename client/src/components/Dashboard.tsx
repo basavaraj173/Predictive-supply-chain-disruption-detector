@@ -34,6 +34,8 @@ import {
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 const WS_URL = process.env.NEXT_PUBLIC_WS_URL || "ws://localhost:8000/ws/intelligence";
+// Demo mode: no backend configured (e.g. Vercel-only deployment)
+const DEMO_MODE = !process.env.NEXT_PUBLIC_API_URL && !process.env.NEXT_PUBLIC_WS_URL;
 
 export default function Dashboard() {
   const [search, setSearch] = useState("");
@@ -193,12 +195,18 @@ export default function Dashboard() {
 
           <div className="flex flex-col items-end">
             <div className="flex items-center gap-2">
-              <div className={`w-2.5 h-2.5 rounded-full ${wsConnected ? 'bg-green-500 shadow-[0_0_10px_rgba(34,197,94,0.5)] animate-pulse' : 'bg-red-500'}`} />
+              <div className={`w-2.5 h-2.5 rounded-full ${
+                wsConnected
+                  ? 'bg-green-500 shadow-[0_0_10px_rgba(34,197,94,0.5)] animate-pulse'
+                  : DEMO_MODE
+                  ? 'bg-amber-400 shadow-[0_0_10px_rgba(251,191,36,0.4)] animate-pulse'
+                  : 'bg-red-500'
+              }`} />
               <span className="text-[10px] font-bold text-white uppercase tracking-[0.15em]">
-                {wsConnected ? 'Node Linked' : 'Link Failed'}
+                {wsConnected ? 'Node Linked' : DEMO_MODE ? 'Demo Mode' : 'Link Failed'}
               </span>
             </div>
-            <p className="text-[9px] text-gray-500 font-bold uppercase mt-0.5">Stream: {wsConnected ? 'Encrypted' : 'Offline'}</p>
+            <p className="text-[9px] text-gray-500 font-bold uppercase mt-0.5">Stream: {wsConnected ? 'Encrypted' : DEMO_MODE ? 'Live Feed' : 'Offline'}</p>
           </div>
         </div>
       </header>
